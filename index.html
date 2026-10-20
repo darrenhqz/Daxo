@@ -1,381 +1,556 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daxo — Automate Your Finance Operations</title>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Daxo — Xero to Power BI consulting in Singapore</title>
+<meta name="description" content="Daxo Pte. Ltd. connects Xero to Power BI and builds dashboards tailored to your business. Power BI consulting for Xero users in Singapore.">
+<meta property="og:title" content="Daxo — Xero to Power BI consulting">
+<meta property="og:description" content="Your Xero data, turned into decisions. Power BI dashboards tailored to your business.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 34 34'%3E%3Crect width='34' height='34' rx='9' fill='%230B1B3A'/%3E%3Crect x='9' y='17' width='4' height='9' rx='1.5' fill='%237DB2FF'/%3E%3Crect x='15' y='12' width='4' height='14' rx='1.5' fill='%23FFFFFF'/%3E%3Crect x='21' y='8' width='4' height='18' rx='1.5' fill='%233B82F6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap">
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#FFFFFF;--bg2:#F7F7F5;--bg3:#EFEFEC;--bg4:#E4E4E0;
-  --ink:#111111;--ink2:#333;--ink3:#666;--ink4:#999;--ink5:#C4C4C4;
-  --mint:#00A870;--mint2:#008F60;--mint-glow:rgba(0,168,112,0.07);--mint-light:#E6F7F0;
-  --blue:#2B7DE9;--amber:#D48806;--coral:#E04848;
-  --sans:'Sora',system-ui,sans-serif;--mono:'Space Mono',monospace;
-  --ease:cubic-bezier(0.16,1,0.3,1);
+html{scroll-behavior:smooth}
+body{margin:0;background:#FFFFFF}
+.dx{font-family:-apple-system,BlinkMacSystemFont,'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;color:#0A0F1C;background:#FFFFFF;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-size:17px;line-height:1.47;letter-spacing:-0.022em;text-rendering:optimizeLegibility}
+.dx h1,.dx h2,.dx h3{margin:0;font-weight:700}
+.dx h1{font-size:clamp(44px,7vw,84px);line-height:1.04;letter-spacing:-0.035em}
+.dx h2{font-size:clamp(36px,5vw,60px);line-height:1.06;letter-spacing:-0.03em}
+.dx h3{font-size:24px;line-height:1.17;letter-spacing:-0.02em;font-weight:600}
+.dx p{margin:0}
+.lede{font-size:clamp(19px,2vw,24px);line-height:1.38;letter-spacing:-0.012em;font-weight:500}
+.small{font-size:12px;letter-spacing:-0.01em;color:#5B6478}
+a{color:#2563EB}a:hover{color:#1D4ED8}
+section{scroll-margin-top:52px}
+.wrap{max-width:1080px;margin:0 auto}
+.navlink{color:#1F2937;text-decoration:none;font-size:14px;font-weight:400;padding:14px 4px;opacity:.85;transition:opacity .2s}
+.navlink:hover{opacity:1;color:#0A0F1C}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 26px;border-radius:999px;font-weight:500;font-size:17px;letter-spacing:-0.022em;text-decoration:none;border:1px solid transparent;cursor:pointer;font-family:inherit;transition:background .25s ease,transform .25s ease,border-color .25s ease}
+.btn-primary{background:var(--accent);color:#FFFFFF}
+.btn-primary:hover{color:#FFFFFF;background:#1D4ED8;transform:scale(1.02)}
+.btn-outline{background:transparent;color:var(--accent);border-color:var(--accent)}
+.btn-outline:hover{color:#FFFFFF;background:var(--accent)}
+.btn-white{background:#FFFFFF;color:#0B1B3A}
+.btn-white:hover{color:#0B1B3A;background:#DCE8FF;transform:scale(1.02)}
+.textlink{display:inline-flex;align-items:center;gap:4px;font-size:19px;text-decoration:none;color:var(--accent);min-height:44px}
+.textlink:hover{text-decoration:underline}
+.textlink-light{color:#7DB2FF}.textlink-light:hover{color:#A9CBFF}
+.arr{display:inline-block;transition:transform .25s ease}
+.btn:hover .arr,.textlink:hover .arr{transform:translateX(3px)}
+.eyebrow{display:inline-flex;align-items:center;gap:10px;padding:10px 20px;border-radius:999px;font-size:19px;line-height:1.2;font-weight:600;letter-spacing:-0.015em;background:#DCE8FF;color:#0B1B3A}
+.eyebrow::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.eyebrow-dark{background:rgba(125,178,255,0.16);color:#FFFFFF}
+.eyebrow-dark::before{background:#7DB2FF}
+.tile{transition:transform .5s cubic-bezier(.2,.7,.2,1),box-shadow .5s ease}
+.tile:hover{transform:scale(1.015);box-shadow:0 30px 60px -36px rgba(11,27,58,.35)}
+@keyframes rise{from{opacity:0;transform:translateY(32px)}to{opacity:1;transform:none}}
+@keyframes fadeblur{from{opacity:0;filter:blur(8px);transform:translateY(18px)}to{opacity:1;filter:blur(0);transform:none}}
+.in{animation:fadeblur 1.1s cubic-bezier(.2,.7,.2,1) both}
+.d1{animation-delay:.05s}.d2{animation-delay:.18s}.d3{animation-delay:.32s}.d4{animation-delay:.46s}.d5{animation-delay:.62s}
+@keyframes grow{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.bar{transform-origin:bottom;animation:grow 1.2s cubic-bezier(.2,.7,.2,1) both}
+@keyframes draw{from{stroke-dashoffset:700}to{stroke-dashoffset:0}}
+.line{stroke-dasharray:700;animation:draw 2.4s .8s ease-out both}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.bob{animation:bob 6s ease-in-out infinite}
+.bob2{animation:bob 7s ease-in-out -3s infinite}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.marquee{display:flex;width:max-content;animation:marquee 50s linear infinite}
+.marquee-wrap:hover .marquee{animation-play-state:paused}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(37,99,235,.55)}100%{box-shadow:0 0 0 10px rgba(37,99,235,0)}}
+.pulse{animation:pulse 1.8s ease-out infinite}
+@keyframes flow{from{stroke-dashoffset:24}to{stroke-dashoffset:0}}
+.flow{stroke-dasharray:6 6;animation:flow .9s linear infinite}
+@keyframes zoomin{from{transform:scale(.9);opacity:.6}to{transform:scale(1);opacity:1}}
+@supports (animation-timeline: view()){
+.reveal{animation:rise linear both;animation-timeline:view();animation-range:entry 0% entry 40%}
+.zoom{animation:zoomin linear both;animation-timeline:view();animation-range:entry 0% cover 40%}
 }
-html{scroll-behavior:smooth;background:var(--bg)}
-body{font-family:var(--sans);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.field{display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:500;color:#1F2937}
+.field input,.field textarea,.field select{font:inherit;font-weight:400;font-size:17px;color:#0A0F1C;background:#F5F7FA;border:1px solid #D6DDE8;border-radius:12px;padding:13px 14px;min-height:50px;box-sizing:border-box;transition:border-color .2s,box-shadow .2s,background .2s}
+.field textarea{min-height:130px;resize:vertical}
+.field input:focus,.field textarea:focus,.field select:focus{outline:none;background:#FFFFFF;border-color:var(--accent);box-shadow:0 0 0 4px rgba(37,99,235,.18)}
+.faq-q{all:unset;box-sizing:border-box;width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:26px 0;min-height:44px;cursor:pointer;font-weight:600;font-size:21px;letter-spacing:-0.02em;color:#0A0F1C}
+.faq-q:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:6px}
+.foot a{color:#3D4659;text-decoration:none}
+.foot a:hover{color:#0A0F1C;text-decoration:underline}
+@media (max-width: 820px){.hide-sm{display:none}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
 
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:20px 0;transition:all .4s var(--ease)}
-.nav.scrolled{background:rgba(255,255,255,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--bg4)}
-.nav-c{max-width:1200px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center}
-.logo{font-weight:800;font-size:24px;letter-spacing:-1px;color:var(--ink);text-decoration:none}
-.logo span{color:var(--mint)}
-.nav-r{display:flex;gap:32px;align-items:center}
-.nav-r a{color:var(--ink3);font-size:14px;font-weight:500;text-decoration:none;transition:color .2s}
-.nav-r a:hover{color:var(--ink)}
-.btn-nav{background:var(--ink);color:#fff;padding:10px 28px;border-radius:100px;font-size:13px;font-weight:700;letter-spacing:.02em;transition:all .2s var(--ease)}
-.btn-nav:hover{background:var(--mint);color:#fff;transform:scale(1.03)}
-
-.hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:0 40px}
-.hero::before{content:'';position:absolute;top:-30%;right:-10%;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,var(--mint-glow) 0%,transparent 65%);pointer-events:none;animation:pulse 8s ease-in-out infinite alternate}
-.hero::after{content:'';position:absolute;bottom:-20%;left:-5%;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(43,125,233,.04) 0%,transparent 65%);pointer-events:none}
-@keyframes pulse{0%{opacity:.4;transform:scale(1)}100%{opacity:.7;transform:scale(1.1)}}
-.hero-c{max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
-.hero-tag{display:inline-flex;align-items:center;gap:8px;background:var(--mint-light);border:1px solid rgba(0,168,112,.15);border-radius:100px;padding:8px 20px 8px 12px;font-size:12px;font-weight:600;color:var(--mint);letter-spacing:.04em;margin-bottom:28px;text-transform:uppercase}
-.hero-tag .dot{width:6px;height:6px;border-radius:50%;background:var(--mint);animation:blink 2s ease infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.hero h1{font-size:clamp(40px,5.5vw,68px);font-weight:800;line-height:1.05;letter-spacing:-2px;margin-bottom:24px;color:var(--ink)}
-.hero h1 .hl{color:var(--mint)}
-.hero-sub{font-size:18px;line-height:1.7;color:var(--ink3);max-width:500px;margin-bottom:40px;font-weight:400}
-.hero-btns{display:flex;gap:16px;align-items:center}
-.btn-p{background:var(--mint);color:#fff;padding:16px 36px;border-radius:100px;font-size:15px;font-weight:700;text-decoration:none;transition:all .2s var(--ease);display:inline-flex;align-items:center;gap:8px;border:none;cursor:pointer}
-.btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,168,112,.2)}
-.btn-s{color:var(--ink3);font-size:14px;font-weight:500;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color .2s}
-.btn-s:hover{color:var(--ink)}
-
-.hero-visual{position:relative;height:480px}
-.term{background:var(--ink);border:1px solid #222;border-radius:16px;padding:24px;font-family:var(--mono);font-size:13px;line-height:2;color:#999;position:absolute;width:420px;box-shadow:0 24px 80px rgba(0,0,0,.12)}
-.term-1{top:20px;right:0;animation:floatUp .8s var(--ease) both .2s}
-.term-2{top:220px;right:40px;animation:floatUp .8s var(--ease) both .5s}
-@keyframes floatUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-.term .ln{display:block}
-.g{color:#00E89D}.b{color:#4DABF7}.a{color:#FFD43B}.c{color:#FF6B6B}.w{color:#fff}
-
-.metrics{border-top:1px solid var(--bg4);border-bottom:1px solid var(--bg4);padding:48px 40px;background:var(--bg2)}
-.metrics-c{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:40px}
-.metric{text-align:center}
-.metric-val{font-size:42px;font-weight:800;letter-spacing:-1.5px;line-height:1;margin-bottom:8px;background:linear-gradient(135deg,var(--ink) 30%,var(--mint));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.metric-label{font-size:13px;color:var(--ink4);font-weight:500}
-
-.sec{padding:120px 40px}
-.sec-c{max-width:1200px;margin:0 auto}
-.sec-label{font-family:var(--sans);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--mint);margin-bottom:16px}
-.sec-h2{font-size:clamp(32px,4vw,52px);font-weight:800;letter-spacing:-1.5px;line-height:1.1;margin-bottom:20px;color:var(--ink)}
-.sec-sub{font-size:17px;color:var(--ink3);max-width:560px;line-height:1.7;margin-bottom:56px}
-
-.how{background:var(--bg2)}
-.how-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--bg4)}
-.how-card{background:var(--bg2);padding:48px 36px;transition:background .3s var(--ease)}
-.how-card:hover{background:var(--bg3)}
-.how-num{font-family:var(--sans);font-size:64px;font-weight:700;color:var(--bg4);line-height:1;margin-bottom:20px;transition:color .3s}
-.how-card:hover .how-num{color:var(--mint)}
-.how-card h3{font-size:20px;font-weight:700;margin-bottom:12px;letter-spacing:-.3px;color:var(--ink)}
-.how-card p{font-size:14px;line-height:1.7;color:var(--ink3)}
-
-.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.svc{background:var(--bg2);border:1px solid var(--bg4);border-radius:16px;padding:44px 36px;overflow:hidden;transition:all .3s var(--ease);display:flex;flex-direction:column;position:relative}
-.svc:hover{border-color:var(--mint);background:#fff;box-shadow:0 8px 32px rgba(0,0,0,.04)}
-.svc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--mint);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
-.svc:hover::before{transform:scaleX(1)}
-.svc h3{font-size:22px;font-weight:700;margin-bottom:12px;letter-spacing:-.3px;color:var(--ink)}
-.svc>p{font-size:14px;line-height:1.7;color:var(--ink3);margin-bottom:24px}
-.svc-features{list-style:none;margin-bottom:32px}
-.svc-features li{font-size:13px;color:var(--ink3);padding:6px 0;border-bottom:1px solid var(--bg4);display:flex;align-items:center;gap:8px}
-.svc-features li::before{content:'\2192';color:var(--mint);font-size:12px}
-.svc-price{border-top:1px solid var(--bg4);padding-top:24px;margin-top:auto}
-.svc-price .from{font-size:11px;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
-.svc-price .amt{font-size:36px;font-weight:800;letter-spacing:-1px;color:var(--ink)}
-.svc-price .amt span{font-size:16px;font-weight:500;color:var(--ink4);margin-left:4px}
-.svc-price .tl{font-size:12px;color:var(--ink4);margin-top:4px}
-
-.case{background:var(--bg2)}
-.case-split{display:grid;grid-template-columns:1fr 1fr;gap:80px}
-.case-left h3{font-family:var(--sans);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--mint);margin-bottom:12px;margin-top:28px}
-.case-left h3:first-child{margin-top:0}
-.case-left p{font-size:15px;line-height:1.8;color:var(--ink3);margin-bottom:8px}
-.tags{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
-.tag{padding:6px 14px;background:var(--mint-light);border:1px solid rgba(0,168,112,.15);border-radius:100px;font-size:11px;font-weight:600;color:var(--mint);letter-spacing:.04em}
-.case-right{display:flex;flex-direction:column}
-.case-stat{padding:28px 0;border-bottom:1px solid var(--bg4)}
-.case-stat:last-child{border-bottom:none}
-.case-stat-val{font-size:48px;font-weight:800;letter-spacing:-2px;line-height:1;margin-bottom:6px;background:linear-gradient(135deg,var(--mint),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.case-stat-label{font-size:13px;color:var(--ink4)}
-.case-quote{margin-top:32px;padding:32px;background:#fff;border-radius:16px;border-left:3px solid var(--mint);box-shadow:0 2px 12px rgba(0,0,0,.04)}
-.case-quote p{font-size:16px;font-style:italic;line-height:1.7;color:var(--ink2);margin-bottom:12px}
-.case-quote cite{font-size:12px;color:var(--ink4);font-style:normal}
-
-.proc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.proc{padding:36px 28px;background:var(--bg2);border:1px solid var(--bg4);border-radius:16px;transition:all .3s var(--ease)}
-.proc:hover{border-color:var(--mint);transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,.04)}
-.proc-num{font-family:var(--sans);font-size:11px;font-weight:700;color:var(--mint);letter-spacing:.1em;margin-bottom:16px}
-.proc h3{font-size:16px;font-weight:700;margin-bottom:8px;color:var(--ink)}
-.proc p{font-size:13px;line-height:1.65;color:var(--ink4)}
-
-.about{background:var(--bg2)}
-.about-split{display:grid;grid-template-columns:3fr 2fr;gap:80px;align-items:start}
-.about p{font-size:15px;line-height:1.8;color:var(--ink3);margin-bottom:16px}
-.creds{display:flex;flex-direction:column;gap:12px}
-.cred{padding:20px 24px;background:#fff;border:1px solid var(--bg4);border-radius:12px}
-.cred h4{font-size:13px;font-weight:700;margin-bottom:4px;color:var(--ink)}
-.cred p{font-size:12px;color:var(--ink4);margin:0;line-height:1.5}
-
-.cta{text-align:center;position:relative;overflow:hidden;background:var(--ink);color:#fff}
-.cta::before{content:'';position:absolute;top:50%;left:50%;width:800px;height:800px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(0,232,157,.1) 0%,transparent 60%);pointer-events:none}
-.cta h2{font-size:clamp(36px,5vw,56px);font-weight:800;letter-spacing:-1.5px;margin-bottom:20px;position:relative;color:#fff}
-.cta>div>p{font-size:16px;color:rgba(255,255,255,.6);max-width:460px;margin:0 auto 40px;line-height:1.7;position:relative}
-.cta .btn-p{font-size:17px;padding:18px 44px;position:relative;background:#fff;color:var(--ink)}
-.cta .btn-p:hover{background:var(--mint);color:#fff;box-shadow:0 8px 32px rgba(0,232,157,.3)}
-.cta-email{margin-top:16px;font-family:var(--sans);font-size:14px;color:rgba(255,255,255,.35);position:relative}
-
-.foot{padding:40px;border-top:1px solid var(--bg4)}
-.foot-c{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
-.foot-logo{font-weight:800;font-size:18px;letter-spacing:-.5px;color:var(--ink)}
-.foot-logo span{color:var(--mint)}
-.foot-r{font-size:12px;color:var(--ink5)}
-
-@media(max-width:900px){
-  .hero-c,.case-split,.about-split{grid-template-columns:1fr}
-  .hero-visual{display:none}
-  .how-grid,.svc-grid,.proc-grid,.metrics-c{grid-template-columns:1fr}
-  .nav-r a:not(.btn-nav){display:none}
-  .sec{padding:80px 24px}
-  .hero{padding:0 24px;min-height:auto;padding-top:140px;padding-bottom:80px}
-  .metrics{padding:40px 24px}
-}
-
-.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.reveal.vis{opacity:1;transform:translateY(0)}
+.faq-icon{flex:none;width:34px;height:34px;border-radius:50%;background:#EEF3FB;color:#0B1B3A;display:flex;align-items:center;justify-content:center;font-size:20px;transition:background .25s,color .25s}
+.faq-q[aria-expanded="true"] .faq-icon{background:var(--accent);color:#FFFFFF}
+.faq-a:not([hidden]){animation:fadeblur .6s cubic-bezier(.2,.7,.2,1) both}
+[hidden]{display:none!important}
 </style>
 </head>
 <body>
+<div class="dx" id="top" style="--accent: #2563EB; min-height: 100vh; overflow-x: hidden">
 
-<nav class="nav" id="nav">
-<div class="nav-c">
-  <a href="#" class="logo">daxo<span>.</span></a>
-  <div class="nav-r">
-    <a href="#services">Services</a>
-    <a href="#case">Results</a>
-    <a href="#process">Process</a>
-    <a href="#contact" class="btn-nav">Get Started</a>
-  </div>
-</div>
-</nav>
+  <!-- NAV -->
+  <header style="position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.78); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid rgba(10,15,28,0.08)">
+    <nav aria-label="Main" style="max-width: 1080px; margin: 0 auto; padding: 4px 22px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+      <a href="#top" aria-label="Daxo home" style="display: flex; align-items: center; gap: 9px; text-decoration: none; color: #0A0F1C; min-height: 44px">
+        <svg width="26" height="26" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="9" fill="#0B1B3A"></rect><rect x="9" y="17" width="4" height="9" rx="1.5" fill="#7DB2FF"></rect><rect x="15" y="12" width="4" height="14" rx="1.5" fill="#FFFFFF"></rect><rect x="21" y="8" width="4" height="18" rx="1.5" fill="#3B82F6"></rect></svg>
+        <span style="font-weight: 700; font-size: 19px; letter-spacing: -0.03em">Daxo</span>
+      </a>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 26px">
+        <a class="navlink hide-sm" href="#services">Services</a>
+        <a class="navlink hide-sm" href="#process">How it works</a>
+        <a class="navlink hide-sm" href="#insights">Dashboards</a>
+        <a class="navlink" href="#about">About us</a>
+        <a class="navlink hide-sm" href="#faq">FAQ</a>
+        <a class="btn btn-primary" href="#contact" style="min-height: 34px; padding: 0 16px; font-size: 14px">Contact us</a>
+      </div>
+    </nav>
+  </header>
 
-<section class="hero">
-<div class="hero-c">
-  <div>
-    <div class="hero-tag"><span class="dot"></span> Finance Automation for Xero</div>
-    <h1>Stop closing your books <span class="hl">manually</span></h1>
-    <p class="hero-sub">AI-powered invoice processing, automated journals, and month-end close orchestration. Built for finance teams who are tired of copying numbers between systems.</p>
-    <div class="hero-btns">
-      <a href="#contact" class="btn-p">Talk to us <span>&rarr;</span></a>
-      <a href="#case" class="btn-s">See the results <span>&darr;</span></a>
-    </div>
-  </div>
-  <div class="hero-visual">
-    <div class="term term-1">
-      <span class="ln"><span class="g">&#10003;</span> <span class="w">INV#0011-2025</span> parsed in <span class="b">1.8s</span></span>
-      <span class="ln">&nbsp; vendor: <span class="a">Mikaelo Pte Ltd</span></span>
-      <span class="ln">&nbsp; amount: <span class="w">USD 435,000.00</span></span>
-      <span class="ln">&nbsp; tax: <span class="g">0% (foreign, no GST)</span></span>
-      <span class="ln">&nbsp; &rarr; <span class="g">Draft bill created in Xero</span></span>
-    </div>
-    <div class="term term-2">
-      <span class="ln"><span class="w">Month-end close</span> - <span class="b">Dec 2025</span></span>
-      <span class="ln">&nbsp; depreciation <span class="g">&#10003;</span> &nbsp;payroll <span class="g">&#10003;</span></span>
-      <span class="ln">&nbsp; accruals <span class="g">&#10003;</span> &nbsp;FX reval <span class="g">&#10003;</span></span>
-      <span class="ln">&nbsp; bank rec <span class="g">&#10003;</span> &nbsp;GL review <span class="g">&#10003;</span></span>
-      <span class="ln">&nbsp; &rarr; <span class="a">Period locked</span> by admin</span>
-    </div>
-  </div>
-</div>
-</section>
-
-<div class="metrics">
-<div class="metrics-c">
-  <div class="metric"><div class="metric-val">&lt;2min</div><div class="metric-label">Invoice processing time</div></div>
-  <div class="metric"><div class="metric-val">$0.00</div><div class="metric-label">Balance sheet variance</div></div>
-  <div class="metric"><div class="metric-val">100%</div><div class="metric-label">Parsing accuracy</div></div>
-  <div class="metric"><div class="metric-val">6</div><div class="metric-label">Entities from one dashboard</div></div>
-</div>
-</div>
-
-<section class="sec how" id="how">
-<div class="sec-c">
-  <div class="sec-label">The problem</div>
-  <div class="sec-h2 reveal">Your finance team is stuck doing work that machines should do</div>
-  <div class="sec-sub reveal">Every PDF opened manually. Every journal typed by hand. Every month-end close running on spreadsheets and memory.</div>
-  <div class="how-grid">
-    <div class="how-card reveal">
-      <div class="how-num">01</div>
-      <h3>Invoice lands in your inbox</h3>
-      <p>Upload the PDF. AI reads the vendor, amount, currency, tax rate, and line items. A draft bill appears in Xero - ready for review. Multi-currency. GST detection. Locked-period accrual handling. All automatic.</p>
-    </div>
-    <div class="how-card reveal">
-      <div class="how-num">02</div>
-      <h3>Journals post themselves</h3>
-      <p>Depreciation, payroll, accruals, prepayments, FX revaluation - calculated from your schedules and posted to Xero via API. No spreadsheet. No re-keying. No mistakes at 11pm on close night.</p>
-    </div>
-    <div class="how-card reveal">
-      <div class="how-num">03</div>
-      <h3>Close the books with confidence</h3>
-      <p>A dashboard shows every entity, every task, every status. Check items off as you go. Lock the period when done. Nothing gets edited after close. Your auditor will love you.</p>
-    </div>
-  </div>
-</div>
-</section>
-
-<section class="sec" id="services">
-<div class="sec-c">
-  <div class="sec-label">What we build</div>
-  <div class="sec-h2 reveal">Three systems. Fixed price. You own everything.</div>
-  <div class="sec-sub reveal">No retainers. No lock-in. No ongoing dependency. We build it, test it, hand it over, and walk away.</div>
-  <div class="svc-grid">
-    <div class="svc reveal">
-      <h3>AP Automation</h3>
-      <p>Upload a PDF. Get a draft bill in Xero. AI handles the rest - vendor matching, currency detection, tax treatment, line item extraction.</p>
-      <ul class="svc-features">
-        <li>LLM-powered intelligent document parsing</li>
-        <li>Multi-currency with GST/VAT detection</li>
-        <li>Locked-period accrual handling</li>
-        <li>Full audit trail in PostgreSQL</li>
-      </ul>
-      <div class="svc-price">
-        <div class="from">Starting from</div>
-        <div class="amt">S$8,000<span>/ project</span></div>
-        <div class="tl">4&ndash;6 week delivery</div>
+  <!-- HERO -->
+  <section style="padding: 96px 22px 0; background: #FFFFFF; text-align: center">
+    <div class="wrap" style="display: flex; flex-direction: column; align-items: center; gap: 26px">
+      <h1 class="in d2" style="max-width: 900px">Your Xero data, turned into <span style="color: var(--accent)">decisions.</span></h1>
+      <p class="lede in d3" style="color: #4B5468; max-width: 720px">Daxo connects your Xero accounting system to Power BI and builds dashboards around the questions your business actually asks — always current, clear and one click away.</p>
+      <div class="in d4" style="display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 18px 28px">
+        <a class="btn btn-primary" href="#contact">Book a free consultation</a>
+        <a class="textlink" href="#process">See how it works <span class="arr" aria-hidden="true">›</span></a>
       </div>
     </div>
-    <div class="svc reveal">
-      <h3>Month-End Close</h3>
-      <p>A dashboard that runs your close. Automated journals, entity-level checklists, period locking. Know exactly where you stand at any moment.</p>
-      <ul class="svc-features">
-        <li>Automated depreciation, payroll, accrual journals</li>
-        <li>Multi-entity checklist with progress tracking</li>
-        <li>Period lock preventing post-close edits</li>
-        <li>FX revaluation workflow</li>
-      </ul>
-      <div class="svc-price">
-        <div class="from">Starting from</div>
-        <div class="amt">S$12,000<span>/ project</span></div>
-        <div class="tl">6&ndash;8 week delivery</div>
+
+    <!-- Hero product shot -->
+    <div class="in d5" style="max-width: 980px; margin: 72px auto 0; position: relative">
+      <div class="zoom" style="background: #0B1B3A; border-radius: 32px 32px 0 0; padding: clamp(18px, 3vw, 36px) clamp(18px, 3vw, 36px) 0; text-align: left">
+        <div style="background: #FFFFFF; border-radius: 20px 20px 0 0; padding: 26px; display: flex; flex-direction: column; gap: 22px">
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+            <div style="display: flex; flex-direction: column; gap: 2px">
+              <span class="small" style="font-weight: 600">Sample dashboard</span>
+              <span style="font-weight: 600; font-size: 21px; letter-spacing: -0.02em">Monthly performance</span>
+            </div>
+            <div style="display: flex; gap: 6px">
+              <span style="padding: 6px 14px; border-radius: 999px; background: #0B1B3A; color: #FFFFFF; font-size: 13px; font-weight: 600">FY</span>
+              <span style="padding: 6px 14px; border-radius: 999px; background: #EEF3FB; color: #3D4659; font-size: 13px; font-weight: 600">QTD</span>
+            </div>
+          </div>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 160px), 1fr)); gap: 12px">
+            <div style="background: #F5F7FA; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 4px">
+              <span style="font-size: 13px; color: #5B6478">Revenue</span>
+              <span style="font-weight: 700; font-size: 28px; letter-spacing: -0.03em">1.24M</span>
+              <span style="font-size: 13px; color: #1D4ED8; font-weight: 600">▲ 12.4%</span>
+            </div>
+            <div style="background: #F5F7FA; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 4px">
+              <span style="font-size: 13px; color: #5B6478">Gross margin</span>
+              <span style="font-weight: 700; font-size: 28px; letter-spacing: -0.03em">41.8%</span>
+              <span style="font-size: 13px; color: #1D4ED8; font-weight: 600">▲ 2.1 pts</span>
+            </div>
+            <div style="background: #F5F7FA; border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 4px">
+              <span style="font-size: 13px; color: #5B6478">Cash runway</span>
+              <span style="font-weight: 700; font-size: 28px; letter-spacing: -0.03em">14 mo</span>
+              <span style="font-size: 13px; color: #0A0F1C; font-weight: 600">▼ 1 mo</span>
+            </div>
+          </div>
+          <div style="position: relative; height: 220px; display: flex; align-items: flex-end; gap: 10px; padding: 0 4px; border-bottom: 1px solid #E3E8F0">
+            
+              <div class="bar" style="flex: 1; height: 38%; animation-delay: 0.30s; background: #DCE8FF; border-radius: 6px 6px 2px 2px"></div>
+            
+              <div class="bar" style="flex: 1; height: 46%; animation-delay: 0.37s; background: #DCE8FF; border-radius: 6px 6px 2px 2px"></div>
+            
+              <div class="bar" style="flex: 1; height: 42%; animation-delay: 0.44s; background: #DCE8FF; border-radius: 6px 6px 2px 2px"></div>
+            
+              <div class="bar" style="flex: 1; height: 55%; animation-delay: 0.51s; background: #DCE8FF; border-radius: 6px 6px 2px 2px"></div>
+            
+              <div class="bar" style="flex: 1; height: 58%; animation-delay: 0.58s; background: #DCE8FF; border-radius: 6px 6px 2px 2px"></div>
+            
+              <div class="bar" style="flex: 1; height: 52%; animation-delay: 0.65s; background: #DCE8FF; border-radius: 6px 6px 2px 2px"></div>
+            
+              <div class="bar" style="flex: 1; height: 66%; animation-delay: 0.72s; background: #DCE8FF; border-radius: 6px 6px 2px 2px"></div>
+            
+              <div class="bar" style="flex: 1; height: 70%; animation-delay: 0.79s; background: #DCE8FF; border-radius: 6px 6px 2px 2px"></div>
+            
+              <div class="bar" style="flex: 1; height: 74%; animation-delay: 0.86s; background: #DCE8FF; border-radius: 6px 6px 2px 2px"></div>
+            
+              <div class="bar" style="flex: 1; height: 79%; animation-delay: 0.93s; background: #93C5FD; border-radius: 6px 6px 2px 2px"></div>
+            
+              <div class="bar" style="flex: 1; height: 85%; animation-delay: 1.00s; background: #93C5FD; border-radius: 6px 6px 2px 2px"></div>
+            
+              <div class="bar" style="flex: 1; height: 92%; animation-delay: 1.07s; background: #2563EB; border-radius: 6px 6px 2px 2px"></div>
+            
+            <svg viewBox="0 0 400 200" preserveAspectRatio="none" aria-hidden="true" style="position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible"><path class="line" d="M10 150 L45 138 L80 142 L115 120 L150 112 L185 118 L220 92 L255 84 L290 70 L325 62 L360 48 L392 36" fill="none" stroke="#0B1B3A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path></svg>
+          </div>
+          <div class="small" style="display: flex; justify-content: space-between; padding-bottom: 6px">
+            <span>Jan</span><span>Mar</span><span>May</span><span>Jul</span><span>Sep</span><span>Nov</span>
+          </div>
+        </div>
+      </div>
+      <div class="bob" style="position: absolute; top: 40px; left: -24px; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid #E3E8F0; border-radius: 18px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; box-shadow: 0 24px 48px -24px rgba(11,27,58,0.4); text-align: left">
+        <span class="pulse" style="width: 10px; height: 10px; border-radius: 50%; background: #2563EB"></span>
+        <div style="display: flex; flex-direction: column">
+          <span style="font-size: 14px; font-weight: 600">Synced from Xero</span>
+          <span style="font-size: 12px; color: #5B6478">Refreshed automatically</span>
+        </div>
+      </div>
+      <div class="bob2" style="position: absolute; bottom: 60px; right: -20px; background: #000000; color: #FFFFFF; border-radius: 18px; padding: 14px 18px; display: flex; flex-direction: column; gap: 2px; box-shadow: 0 24px 48px -24px rgba(0,0,0,0.6); text-align: left">
+        <span style="color: #7DB2FF; font-size: 12px; font-weight: 600">Insight</span>
+        <span style="font-size: 15px; font-weight: 600">Receivables &gt; 60 days ▼ 18%</span>
       </div>
     </div>
-    <div class="svc reveal">
-      <h3>Management Reporting</h3>
-      <p>Power BI dashboards connected to Xero. P&L, Balance Sheet, KPIs - live, branded, and updating automatically.</p>
-      <ul class="svc-features">
-        <li>Live Xero API connection</li>
-        <li>Entity-level and consolidated views</li>
-        <li>Variance analysis with drill-down</li>
-        <li>Branded for your leadership team</li>
-      </ul>
-      <div class="svc-price">
-        <div class="from">Starting from</div>
-        <div class="amt">S$5,000<span>/ project</span></div>
-        <div class="tl">3&ndash;4 week delivery</div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap" aria-label="What we report on" style="background: #0B1B3A; overflow: hidden; padding: 22px 0">
+    <div class="marquee">
+      
+        <span style="display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: 21px; letter-spacing: -0.02em; color: #FFFFFF; white-space: nowrap">Xero to Power BI <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #7DB2FF; display: inline-block"></span></span>
+      
+        <span style="display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: 21px; letter-spacing: -0.02em; color: #FFFFFF; white-space: nowrap">Profit &amp; loss <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #7DB2FF; display: inline-block"></span></span>
+      
+        <span style="display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: 21px; letter-spacing: -0.02em; color: #FFFFFF; white-space: nowrap">Cash flow &amp; runway <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #7DB2FF; display: inline-block"></span></span>
+      
+        <span style="display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: 21px; letter-spacing: -0.02em; color: #FFFFFF; white-space: nowrap">Receivables ageing <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #7DB2FF; display: inline-block"></span></span>
+      
+        <span style="display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: 21px; letter-spacing: -0.02em; color: #FFFFFF; white-space: nowrap">Budget vs actual <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #7DB2FF; display: inline-block"></span></span>
+      
+        <span style="display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: 21px; letter-spacing: -0.02em; color: #FFFFFF; white-space: nowrap">Multi-entity consolidation <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #7DB2FF; display: inline-block"></span></span>
+      
+        <span style="display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: 21px; letter-spacing: -0.02em; color: #FFFFFF; white-space: nowrap">KPI scorecards <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #7DB2FF; display: inline-block"></span></span>
+      
+        <span style="display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: 21px; letter-spacing: -0.02em; color: #FFFFFF; white-space: nowrap">Management packs <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #7DB2FF; display: inline-block"></span></span>
+      
+        <span style="display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: 21px; letter-spacing: -0.02em; color: #FFFFFF; white-space: nowrap">Xero to Power BI <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #7DB2FF; display: inline-block"></span></span>
+      
+        <span style="display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: 21px; letter-spacing: -0.02em; color: #FFFFFF; white-space: nowrap">Profit &amp; loss <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #7DB2FF; display: inline-block"></span></span>
+      
+        <span style="display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: 21px; letter-spacing: -0.02em; color: #FFFFFF; white-space: nowrap">Cash flow &amp; runway <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #7DB2FF; display: inline-block"></span></span>
+      
+        <span style="display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: 21px; letter-spacing: -0.02em; color: #FFFFFF; white-space: nowrap">Receivables ageing <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #7DB2FF; display: inline-block"></span></span>
+      
+        <span style="display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: 21px; letter-spacing: -0.02em; color: #FFFFFF; white-space: nowrap">Budget vs actual <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #7DB2FF; display: inline-block"></span></span>
+      
+        <span style="display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: 21px; letter-spacing: -0.02em; color: #FFFFFF; white-space: nowrap">Multi-entity consolidation <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #7DB2FF; display: inline-block"></span></span>
+      
+        <span style="display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: 21px; letter-spacing: -0.02em; color: #FFFFFF; white-space: nowrap">KPI scorecards <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #7DB2FF; display: inline-block"></span></span>
+      
+        <span style="display: inline-flex; align-items: center; gap: 30px; padding-right: 30px; font-weight: 600; font-size: 21px; letter-spacing: -0.02em; color: #FFFFFF; white-space: nowrap">Management packs <span aria-hidden="true" style="width: 6px; height: 6px; border-radius: 50%; background: #7DB2FF; display: inline-block"></span></span>
+      
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section id="services" style="padding: 130px 22px; background: #F5F7FA">
+    <div class="wrap" style="display: flex; flex-direction: column; gap: 64px">
+      <div class="reveal" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 22px">
+        <h2 style="max-width: 820px">From raw ledger to reporting you can trust.</h2>
+        <p class="lede" style="color: #4B5468; max-width: 680px">Everything you need to move from exported spreadsheets to live, decision‑ready Power BI reporting.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 22px">
+        <div class="tile reveal" style="background: #FFFFFF; border-radius: 28px; padding: 44px; display: flex; flex-direction: column; gap: 16px">
+          <div style="width: 52px; height: 52px; border-radius: 16px; background: #DCE8FF; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 17H7A5 5 0 0 1 7 7h2"></path><path d="M15 7h2a5 5 0 1 1 0 10h-2"></path><path d="M8 12h8"></path></svg></div>
+          <h3>Xero → Power BI integration</h3>
+          <p style="color: #4B5468">We connect Xero to a secure data layer that feeds Power BI — no more manual exports or copy‑paste reconciliations.</p>
+        </div>
+        <div class="tile reveal" style="background: #0B1B3A; color: #FFFFFF; border-radius: 28px; padding: 44px; display: flex; flex-direction: column; gap: 16px">
+          <div style="width: 52px; height: 52px; border-radius: 16px; background: rgba(125,178,255,0.18); display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7DB2FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M7 15v-3"></path><path d="M12 15V8"></path><path d="M17 15v-5"></path></svg></div>
+          <h3 style="color: #FFFFFF">Custom dashboards</h3>
+          <p style="color: #C3CEE3">Designed around your business model, your KPIs and the people who read them — not a generic template.</p>
+        </div>
+        <div class="tile reveal" style="background: #000000; color: #FFFFFF; border-radius: 28px; padding: 44px; display: flex; flex-direction: column; gap: 16px">
+          <div style="width: 52px; height: 52px; border-radius: 16px; background: rgba(59,130,246,0.22); display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7DB2FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"></path></svg></div>
+          <h3 style="color: #FFFFFF">Insights &amp; analysis</h3>
+          <p style="color: #BFC6D4">We go beyond charts — highlighting margin drivers, cash risks and trends so you know what to act on.</p>
+        </div>
+        <div class="tile reveal" style="background: #FFFFFF; border-radius: 28px; padding: 44px; display: flex; flex-direction: column; gap: 16px">
+          <div style="width: 52px; height: 52px; border-radius: 16px; background: #DCE8FF; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"></path><path d="M21 3v5h-5"></path></svg></div>
+          <h3>Automation &amp; support</h3>
+          <p style="color: #4B5468">Scheduled refreshes, ongoing enhancements and team handover, so your reporting keeps pace as you grow.</p>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-</section>
+  </section>
 
-<section class="sec case" id="case">
-<div class="sec-c">
-  <div class="sec-label">Case study</div>
-  <div class="sec-h2 reveal">From 6-month delays to real-time close</div>
-  <div class="sec-sub reveal">A Singapore-based investment holding company. Six entities. Three currencies. One person running the entire finance function.</div>
-  <div class="case-split">
-    <div class="case-left reveal">
-      <h3>The situation</h3>
-      <p>Management accounts running six months behind. External accountants dependent on late bank statements and manual data gathering. Every AP invoice manually entered. Month-end close spread across spreadsheets with no enforced procedure. The CFO had zero real-time visibility into the group's financial position.</p>
-      <div class="tags">
-        <span class="tag">6 entities</span>
-        <span class="tag">USD / EUR / SGD</span>
-        <span class="tag">Xero</span>
-        <span class="tag">Cross-border</span>
-        <span class="tag">Offshore maritime</span>
+  <!-- PROCESS -->
+  <section id="process" style="padding: 130px 22px; background: #000000; color: #FFFFFF">
+    <div class="wrap" style="display: flex; flex-direction: column; gap: 72px">
+      <div class="reveal" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 22px">
+        <h2 style="color: #FFFFFF; max-width: 760px">Live in weeks, <span style="color: #7DB2FF">not months.</span></h2>
+        <p class="lede" style="color: #A8B2C5; max-width: 640px">A clear, four‑step engagement that takes you from scattered reports to one source of truth.</p>
       </div>
-      <h3>What we built</h3>
-      <p>A complete finance automation layer. PDF invoices parsed by AI and posted as draft bills in under two minutes. Month-end journals - depreciation, payroll, accruals, FX revaluation - fully automated. A 10-step close procedure enforced through a dashboard with period locking across all six entities.</p>
-      <p>The system handles edge cases that normally require senior accountant judgment: multi-currency invoices, GST detection on Singapore invoices, German informational VAT exclusion, and automatic accrual journal posting for invoices dated in locked periods.</p>
-      <div class="case-quote">
-        <p>&ldquo;The system handles multi-currency invoices, GST detection, and locked-period accruals automatically - edge cases that would normally require senior accountant judgment.&rdquo;</p>
-        <cite>- Parallel test documentation, April 2026</cite>
+
+      <div class="reveal" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 14px; padding: 40px 28px; border-radius: 28px; background: #0B1B3A">
+        <div style="display: flex; align-items: center; gap: 12px; padding: 16px 24px; border-radius: 16px; background: rgba(255,255,255,0.08)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v16H4z"></path><path d="M4 9h16"></path><path d="M9 9v11"></path></svg>
+          <span style="font-weight: 600; font-size: 17px">Xero</span>
+        </div>
+        <svg width="90" height="12" viewBox="0 0 90 12" aria-hidden="true"><line class="flow" x1="0" y1="6" x2="90" y2="6" stroke="#7DB2FF" stroke-width="2"></line></svg>
+        <div style="display: flex; align-items: center; gap: 12px; padding: 16px 24px; border-radius: 16px; background: rgba(255,255,255,0.08)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"></ellipse><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"></path><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"></path></svg>
+          <span style="font-weight: 600; font-size: 17px">Secure data layer</span>
+        </div>
+        <svg width="90" height="12" viewBox="0 0 90 12" aria-hidden="true"><line class="flow" x1="0" y1="6" x2="90" y2="6" stroke="#7DB2FF" stroke-width="2"></line></svg>
+        <div style="display: flex; align-items: center; gap: 12px; padding: 16px 24px; border-radius: 16px; background: var(--accent)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 20V10"></path><path d="M12 20V4"></path><path d="M17 20v-7"></path></svg>
+          <span style="font-weight: 600; font-size: 17px">Power BI dashboards</span>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); gap: 36px">
+        
+          <div class="reveal" style="display: flex; flex-direction: column; gap: 12px; padding-top: 26px; border-top: 1px solid rgba(255,255,255,0.18)">
+            <span style="font-weight: 700; font-size: 48px; letter-spacing: -0.04em; color: #3B82F6; line-height: 1">01</span>
+            <h3 style="color: #FFFFFF">Discover</h3>
+            <p style="color: #A8B2C5">We learn how your business runs, who reads the reports and which decisions they need to support.</p>
+          </div>
+        
+          <div class="reveal" style="display: flex; flex-direction: column; gap: 12px; padding-top: 26px; border-top: 1px solid rgba(255,255,255,0.18)">
+            <span style="font-weight: 700; font-size: 48px; letter-spacing: -0.04em; color: #3B82F6; line-height: 1">02</span>
+            <h3 style="color: #FFFFFF">Connect</h3>
+            <p style="color: #A8B2C5">We securely link your Xero organisation(s) to a clean data model, ready for Power BI.</p>
+          </div>
+        
+          <div class="reveal" style="display: flex; flex-direction: column; gap: 12px; padding-top: 26px; border-top: 1px solid rgba(255,255,255,0.18)">
+            <span style="font-weight: 700; font-size: 48px; letter-spacing: -0.04em; color: #3B82F6; line-height: 1">03</span>
+            <h3 style="color: #FFFFFF">Build</h3>
+            <p style="color: #A8B2C5">We design dashboards around your KPIs, iterating with you until they answer the right questions.</p>
+          </div>
+        
+          <div class="reveal" style="display: flex; flex-direction: column; gap: 12px; padding-top: 26px; border-top: 1px solid rgba(255,255,255,0.18)">
+            <span style="font-weight: 700; font-size: 48px; letter-spacing: -0.04em; color: #3B82F6; line-height: 1">04</span>
+            <h3 style="color: #FFFFFF">Deliver &amp; refine</h3>
+            <p style="color: #A8B2C5">Automated refreshes go live, your team is trained, and we keep improving as your needs evolve.</p>
+          </div>
+        
       </div>
     </div>
-    <div class="case-right reveal">
-      <div class="case-stat"><div class="case-stat-val">&lt;2 min</div><div class="case-stat-label">Invoice processing - down from 15 minutes</div></div>
-      <div class="case-stat"><div class="case-stat-val">$0.00</div><div class="case-stat-label">Balance Sheet variance in parallel test</div></div>
-      <div class="case-stat"><div class="case-stat-val">10-step</div><div class="case-stat-label">Enforced close with period locking</div></div>
-      <div class="case-stat"><div class="case-stat-val">100%</div><div class="case-stat-label">Invoice parsing accuracy on test sample</div></div>
-      <div class="case-stat"><div class="case-stat-val">6</div><div class="case-stat-label">Entities managed from a single dashboard</div></div>
+  </section>
+
+  <!-- DASHBOARDS -->
+  <section id="insights" style="padding: 130px 22px; background: #FFFFFF">
+    <div class="wrap" style="display: flex; flex-direction: column; gap: 64px">
+      <div class="reveal" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 22px">
+        <h2 style="max-width: 820px">Insights shaped around your needs.</h2>
+        <p class="lede" style="color: #4B5468; max-width: 680px">Every client is different. These are views we commonly build — pick what matters and we’ll tailor the rest.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 22px">
+        
+          <div class="tile reveal" style="background: #F5F7FA; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 14px">
+            <span style="align-self: flex-start; padding: 6px 12px; border-radius: 10px; background: #0B1B3A; color: #FFFFFF; font-size: 14px; font-weight: 700; letter-spacing: -0.01em">P&amp;L</span>
+            <h3>Profit &amp; loss performance</h3>
+            <p style="color: #4B5468">Revenue, margins and expenses by month, department or tracking category.</p>
+          </div>
+        
+          <div class="tile reveal" style="background: #F5F7FA; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 14px">
+            <span style="align-self: flex-start; padding: 6px 12px; border-radius: 10px; background: #1D4ED8; color: #FFFFFF; font-size: 14px; font-weight: 700; letter-spacing: -0.01em">Cash</span>
+            <h3>Cash flow &amp; runway</h3>
+            <p style="color: #4B5468">Cash position, burn and runway so you can plan with confidence.</p>
+          </div>
+        
+          <div class="tile reveal" style="background: #F5F7FA; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 14px">
+            <span style="align-self: flex-start; padding: 6px 12px; border-radius: 10px; background: #DCE8FF; color: #0B1B3A; font-size: 14px; font-weight: 700; letter-spacing: -0.01em">AR / AP</span>
+            <h3>Receivables &amp; payables</h3>
+            <p style="color: #4B5468">Ageing, overdue balances and top debtors to keep working capital healthy.</p>
+          </div>
+        
+          <div class="tile reveal" style="background: #F5F7FA; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 14px">
+            <span style="align-self: flex-start; padding: 6px 12px; border-radius: 10px; background: #000000; color: #FFFFFF; font-size: 14px; font-weight: 700; letter-spacing: -0.01em">BvA</span>
+            <h3>Budget vs actual</h3>
+            <p style="color: #4B5468">Variance tracking that shows where you are ahead, behind and why.</p>
+          </div>
+        
+          <div class="tile reveal" style="background: #F5F7FA; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 14px">
+            <span style="align-self: flex-start; padding: 6px 12px; border-radius: 10px; background: #3B82F6; color: #FFFFFF; font-size: 14px; font-weight: 700; letter-spacing: -0.01em">Group</span>
+            <h3>Multi-entity consolidation</h3>
+            <p style="color: #4B5468">Group-level views across multiple Xero organisations and currencies.</p>
+          </div>
+        
+          <div class="tile reveal" style="background: #F5F7FA; border-radius: 28px; padding: 36px; display: flex; flex-direction: column; gap: 14px">
+            <span style="align-self: flex-start; padding: 6px 12px; border-radius: 10px; background: #1E3A8A; color: #FFFFFF; font-size: 14px; font-weight: 700; letter-spacing: -0.01em">KPI</span>
+            <h3>KPI scorecards</h3>
+            <p style="color: #4B5468">The handful of metrics your leadership reviews every month, on one page.</p>
+          </div>
+        
+      </div>
     </div>
-  </div>
-</div>
-</section>
+  </section>
 
-<section class="sec" id="process">
-<div class="sec-c">
-  <div class="sec-label">How we work</div>
-  <div class="sec-h2 reveal">Clear scope. Fixed price. Clean handover.</div>
-  <div class="sec-sub reveal">No surprises. No scope creep. You know exactly what you're getting and when.</div>
-  <div class="proc-grid">
-    <div class="proc reveal"><div class="proc-num">01</div><h3>Discovery</h3><p>We review your chart of accounts, close procedure, invoice volume, and pain points. Agree on scope and deliverables.</p></div>
-    <div class="proc reveal"><div class="proc-num">02</div><h3>Build</h3><p>Built using your actual data and workflows. Weekly progress. You can test as we go. No black boxes.</p></div>
-    <div class="proc reveal"><div class="proc-num">03</div><h3>Parallel test</h3><p>The new system runs alongside your existing process. We compare outputs and fix gaps before go-live.</p></div>
-    <div class="proc reveal"><div class="proc-num">04</div><h3>Handover</h3><p>Full documentation, walkthrough, and 30-day warranty. You own the system. No recurring fees.</p></div>
-  </div>
-</div>
-</section>
-
-<section class="sec about">
-<div class="sec-c">
-  <div class="sec-label">About</div>
-  <div class="sec-h2 reveal">Built by a finance professional.<br>Not a dev shop.</div>
-  <div class="about-split">
-    <div class="reveal">
-      <p>Daxo is a specialist finance automation consultancy with deep roots in audit, accounting, and FP&A - built on six years of hands-on corporate finance experience in Singapore.</p>
-      <p>Every system is built by someone who has actually sat in the seat - posting the journals at midnight, chasing the bank statements, explaining the variances. The automation reflects how finance actually works, not how a developer imagines it works.</p>
-      <p>That means proper accounting standards, correct tax handling, audit trails that would satisfy an external auditor, and controls that prevent post-close edits.</p>
+  <!-- ABOUT -->
+  <section id="about" style="padding: 130px 22px; background: #0B1B3A; color: #FFFFFF">
+    <div class="wrap" style="display: flex; flex-direction: column; gap: 64px">
+      <div class="reveal" style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 22px">
+        <h2 style="color: #FFFFFF; max-width: 860px">Finance people who build data systems.</h2>
+        <p class="lede" style="color: #C3CEE3; max-width: 760px">Daxo Pte. Ltd. is a Singapore‑based Power BI consultancy for businesses that run on Xero. We were founded by a finance professional with hands‑on experience in FP&amp;A, audit and building finance functions and reporting systems from the ground up.</p>
+        <p style="color: #A8B6CF; max-width: 680px; font-size: 19px">We understand the numbers before we chart them — and we design reporting your accountants and your leadership can both rely on.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 22px">
+        
+          <div class="tile reveal" style="display: flex; flex-direction: column; gap: 14px; padding: 36px; border-radius: 28px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1)">
+            <span style="width: 44px; height: 44px; border-radius: 50%; background: #3B82F6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 17px">1</span>
+            <h3 style="color: #FFFFFF">Finance first</h3>
+            <p style="color: #C3CEE3">Every dashboard starts from sound accounting, so the numbers reconcile back to Xero.</p>
+          </div>
+        
+          <div class="tile reveal" style="display: flex; flex-direction: column; gap: 14px; padding: 36px; border-radius: 28px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1)">
+            <span style="width: 44px; height: 44px; border-radius: 50%; background: #3B82F6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 17px">2</span>
+            <h3 style="color: #FFFFFF">Tailored, not templated</h3>
+            <p style="color: #C3CEE3">We build around your business model and the questions your team actually asks.</p>
+          </div>
+        
+          <div class="tile reveal" style="display: flex; flex-direction: column; gap: 14px; padding: 36px; border-radius: 28px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1)">
+            <span style="width: 44px; height: 44px; border-radius: 50%; background: #3B82F6; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 17px">3</span>
+            <h3 style="color: #FFFFFF">Secure by design</h3>
+            <p style="color: #C3CEE3">Your data stays protected, with access controlled by role from day one.</p>
+          </div>
+        
+      </div>
+      <div class="reveal" style="display: flex; justify-content: center">
+        <a class="btn btn-white" href="#contact">Work with us <span class="arr" aria-hidden="true">›</span></a>
+      </div>
     </div>
-    <div class="creds reveal">
-      <div class="cred"><h4>Finance</h4><p>6 years across audit, accounting, and FP&A</p></div>
-      <div class="cred"><h4>Stack</h4><p>n8n &middot; LLM APIs &middot; PostgreSQL &middot; Xero API &middot; Power BI</p></div>
-      <div class="cred"><h4>Domain</h4><p>Multi-entity group accounting, multi-currency, cross-border</p></div>
-      <div class="cred"><h4>Delivery</h4><p>Fixed price. No retainer. You own everything.</p></div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" style="padding: 130px 22px; background: #FFFFFF">
+    <div style="max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 48px">
+      <div class="reveal" style="display: flex; flex-direction: column; gap: 22px; text-align: center; align-items: center">
+        <h2>Common questions.</h2>
+      </div>
+      <div class="reveal" style="display: flex; flex-direction: column; border-top: 1px solid #D6DDE8">
+        
+          <div class="faq-item" style="border-bottom: 1px solid #D6DDE8">
+            <button class="faq-q" type="button" aria-expanded="true" aria-controls="faq-a0" id="faq-q0">
+              <span>Do I need to change how I use Xero?</span>
+              <span class="faq-icon" aria-hidden="true">−</span>
+            </button>
+            <div class="faq-a" id="faq-a0" role="region" aria-labelledby="faq-q0">
+              <p style="padding: 0 52px 28px 0; color: #4B5468; font-size: 19px; line-height: 1.5">No. We work with your existing Xero setup and chart of accounts. If small changes would improve reporting, we’ll recommend them — but they’re optional.</p>
+            </div>
+          </div>
+          <div class="faq-item" style="border-bottom: 1px solid #D6DDE8">
+            <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a1" id="faq-q1">
+              <span>How often is the dashboard data updated?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-a" id="faq-a1" role="region" aria-labelledby="faq-q1" hidden>
+              <p style="padding: 0 52px 28px 0; color: #4B5468; font-size: 19px; line-height: 1.5">Refreshes are automated on a schedule that suits your business, so your dashboards stay current without anyone exporting data.</p>
+            </div>
+          </div>
+          <div class="faq-item" style="border-bottom: 1px solid #D6DDE8">
+            <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a2" id="faq-q2">
+              <span>Can you report across multiple Xero organisations?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-a" id="faq-a2" role="region" aria-labelledby="faq-q2" hidden>
+              <p style="padding: 0 52px 28px 0; color: #4B5468; font-size: 19px; line-height: 1.5">Yes. We can consolidate several entities into a single group view, while still letting you drill into each organisation.</p>
+            </div>
+          </div>
+          <div class="faq-item" style="border-bottom: 1px solid #D6DDE8">
+            <button class="faq-q" type="button" aria-expanded="false" aria-controls="faq-a3" id="faq-q3">
+              <span>Do I need a Power BI licence?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-a" id="faq-a3" role="region" aria-labelledby="faq-q3" hidden>
+              <p style="padding: 0 52px 28px 0; color: #4B5468; font-size: 19px; line-height: 1.5">We’ll advise on the right Power BI licensing for how your team wants to view and share reports, and help you set it up.</p>
+            </div>
+          </div>
+      </div>
     </div>
-  </div>
-</div>
-</section>
+  </section>
 
-<section class="sec cta" id="contact">
-<div class="sec-c">
-  <h2 class="reveal">Ready to stop<br>closing manually?</h2>
-  <p class="reveal">No pitch deck. No discovery call marathon. Just a conversation about what's broken and how to fix it.</p>
-  <a href="mailto:contact@daxo.sg" class="btn-p reveal">contact@daxo.sg <span>&rarr;</span></a>
-  <div class="cta-email reveal">Typically respond within 24 hours</div>
-</div>
-</section>
+  <!-- CONTACT -->
+  <section id="contact" style="padding: 40px 22px 130px; background: #FFFFFF">
+    <div class="reveal" style="max-width: 1080px; margin: 0 auto; background: #000000; color: #FFFFFF; border-radius: 36px; padding: clamp(32px, 6vw, 72px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr)); gap: 56px; overflow: hidden">
+      <div style="display: flex; flex-direction: column; gap: 22px">
+        <h2 style="color: #FFFFFF">Let’s make your numbers <span style="color: #7DB2FF">work for you.</span></h2>
+        <p class="lede" style="color: #A8B2C5; max-width: 440px">Tell us about your business and what you want to see. We’ll reply within one business day to arrange a free consultation.</p>
+        <div style="display: flex; flex-direction: column; gap: 14px; padding-top: 10px; font-size: 17px">
+          <span style="display: flex; align-items: center; gap: 12px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7DB2FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m3 7 9 6 9-6"></path></svg>[YOUR EMAIL]</span>
+          <span style="display: flex; align-items: center; gap: 12px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7DB2FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"></path><circle cx="12" cy="10" r="2.5"></circle></svg>Singapore</span>
+          <span style="display: flex; align-items: center; gap: 12px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#7DB2FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="4"></rect><path d="M7 10v7"></path><path d="M7 7v.01"></path><path d="M11 17v-4a2 2 0 0 1 4 0v4"></path><path d="M11 10v7"></path></svg>Daxo on LinkedIn</span>
+        </div>
+      </div>
+      <div style="background: #FFFFFF; color: #0A0F1C; border-radius: 28px; padding: 32px">
+        <div id="sent-box" hidden>
+          <div class="in" style="min-height: 440px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 16px">
+            <span style="width: 64px; height: 64px; border-radius: 50%; background: #DCE8FF; display: flex; align-items: center; justify-content: center"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg></span>
+            <h3 style="font-size: 28px">Thanks — message received.</h3>
+            <p style="color: #4B5468; max-width: 320px">We’ll be in touch within one business day.</p>
+            <button class="btn btn-outline" type="button" id="reset-btn">Send another message</button>
+          </div>
+        </div>
+        <div id="form-box">
+          <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" style="display: flex; flex-direction: column; gap: 18px">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px">
+              <label class="field">Name<input type="text" name="name" required="required" autocomplete="name" placeholder="Jane Tan"></label>
+              <label class="field">Company<input type="text" name="company" autocomplete="organization" placeholder="Company Pte. Ltd."></label>
+            </div>
+            <label class="field">Work email<input type="email" name="email" required="required" autocomplete="email" placeholder="jane@company.com"></label>
+            <label class="field">What are you looking for?
+              <select name="interest">
+                <option>Connect Xero to Power BI</option>
+                <option>Custom dashboards</option>
+                <option>Review my existing reports</option>
+                <option>Something else</option>
+              </select>
+            </label>
+            <label class="field">Message<textarea name="message" placeholder="Tell us about your reporting today and what you’d like to see."></textarea></label>
+            <button class="btn btn-primary" type="submit" style="min-height: 52px">Send message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<footer class="foot">
-<div class="foot-c">
-  <div class="foot-logo">daxo<span>.</span></div>
-  <div class="foot-r">&copy; 2026 Daxo &middot; Singapore</div>
-</div>
-</footer>
+  <!-- FOOTER -->
+  <footer class="foot" style="background: #F5F7FA; color: #5B6478; padding: 40px 22px 32px; font-size: 13px">
+    <div class="wrap" style="display: flex; flex-direction: column; gap: 24px">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; padding-bottom: 20px; border-bottom: 1px solid #D6DDE8">
+        <span style="display: flex; align-items: center; gap: 9px; color: #0A0F1C">
+          <svg width="24" height="24" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="9" fill="#0B1B3A"></rect><rect x="9" y="17" width="4" height="9" rx="1.5" fill="#7DB2FF"></rect><rect x="15" y="12" width="4" height="14" rx="1.5" fill="#FFFFFF"></rect><rect x="21" y="8" width="4" height="18" rx="1.5" fill="#3B82F6"></rect></svg>
+          <span style="font-weight: 700; font-size: 17px; letter-spacing: -0.03em">Daxo</span>
+          <span style="color: #5B6478; font-size: 13px">· Power BI consulting for businesses on Xero</span>
+        </span>
+        <nav aria-label="Footer" style="display: flex; flex-wrap: wrap; gap: 22px; font-size: 14px">
+          <a href="#services">Services</a>
+          <a href="#process">How it works</a>
+          <a href="#insights">Dashboards</a>
+          <a href="#about">About us</a>
+          <a href="#faq">FAQ</a>
+          <a href="#contact">Contact us</a>
+          <a href="#top">Back to top ↑</a>
+        </nav>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px">
+        <span>© 2026 Daxo Pte. Ltd. · UEN [YOUR UEN] · Singapore</span>
+        <span>Xero and Power BI are trademarks of their respective owners.</span>
+      </div>
+    </div>
+  </footer>
 
+</div>
 <script>
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
-const obs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}})
-},{threshold:.12,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+(function(){
+  document.querySelectorAll('.faq-q').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var open=btn.getAttribute('aria-expanded')==='true';
+      document.querySelectorAll('.faq-q').forEach(function(b){
+        b.setAttribute('aria-expanded','false');
+        b.querySelector('.faq-icon').textContent='+';
+        document.getElementById(b.getAttribute('aria-controls')).hidden=true;
+      });
+      if(!open){
+        btn.setAttribute('aria-expanded','true');
+        btn.querySelector('.faq-icon').textContent='\u2212';
+        document.getElementById(btn.getAttribute('aria-controls')).hidden=false;
+      }
+    });
+  });
+  var form=document.getElementById('contact-form'),formBox=document.getElementById('form-box'),sentBox=document.getElementById('sent-box');
+  function showSent(){formBox.hidden=true;sentBox.hidden=false;}
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    if(form.action.indexOf('YOUR_FORM_ID')!==-1){showSent();form.reset();return;}
+    fetch(form.action,{method:'POST',body:new FormData(form),headers:{'Accept':'application/json'}})
+      .then(function(r){if(r.ok){showSent();form.reset();}else{alert('Sorry, something went wrong. Please email us directly.');}})
+      .catch(function(){alert('Sorry, something went wrong. Please email us directly.');});
+  });
+  document.getElementById('reset-btn').addEventListener('click',function(){sentBox.hidden=true;formBox.hidden=false;});
+})();
 </script>
-
 </body>
 </html>
